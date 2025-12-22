@@ -2,7 +2,7 @@ require 'yaml'
 
 data = YAML.load_file('versions.yaml')
 
-# Dir.mkdir("built") unless Dir.exist?("built")
+Dir.mkdir("built") unless Dir.exist?("built")
 
 versions = data['versions']
 versions.each do |version|
