@@ -1,0 +1,55 @@
+name: Build mruby compilers
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch containing versions.yaml'
+        required: true
+        default: 'main'
+      release_tag:
+        description: 'Release tag name (e.g., v1.0.0)'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Build in Docker container
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/workspace" \
+            -w /workspace \
+            ruby:latest \
+            bash build.sh
+
+      - name: Create archive
+        run: |
+          cd output
+          tar -czvf "../mrbc-pack-${{ github.event.inputs.release_tag }}.tar.gz" *
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mrbc-pack
+          path: mrbc-pack-${{ github.event.inputs.release_tag }}.tar.gz
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mrbc-pack
+
+      - name: Create Release
+        run: gh release create ${{ github.event.inputs.release_tag }} --generate-notes --repo ${{ github.repository }} mrbc-pack-${{ github.event.inputs.release_tag }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
