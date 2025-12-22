@@ -25,7 +25,7 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}:/workspace" \
             -w /workspace \
-            ruby:latest \
+            ruby:2.7 \
             bash build.sh
 
       - name: Upload artifact
