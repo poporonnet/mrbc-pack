@@ -28,16 +28,11 @@ jobs:
             ruby:latest \
             bash build.sh
 
-      - name: Create archive
-        run: |
-          cd output
-          tar -czvf "../mrbc-pack-${{ github.event.inputs.release_tag }}.tar.gz" *
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: mrbc-pack
-          path: mrbc-pack-${{ github.event.inputs.release_tag }}.tar.gz
+          path: built/*.tar.gz
 
   release:
     name: Create Release
@@ -50,6 +45,6 @@ jobs:
           name: mrbc-pack
 
       - name: Create Release
-        run: gh release create ${{ github.event.inputs.release_tag }} --generate-notes --repo ${{ github.repository }} mrbc-pack-${{ github.event.inputs.release_tag }}.tar.gz
+        run: gh release create ${{ github.event.inputs.release_tag }} --generate-notes --repo ${{ github.repository }} *.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
