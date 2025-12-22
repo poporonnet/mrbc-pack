@@ -9,8 +9,8 @@ versions.each do |version|
   `git clone -q --depth 1 -b #{version} https://github.com/mruby/mruby.git mruby-#{version}`
    Dir.chdir("mruby-#{version}") do
      `rake -j5`
-     `cp build/host/bin/mruby ../built/mruby-#{version}`
-     `cp LICENSE ../built/mruby-#{version}-LICENSE`
-     `cp LEGAL ../built/mruby-#{version}-LEGAL`
+     `cp build/host/bin/mrbc ../built/mrbc-#{version}`
+     `cp LICENSE ../built/mrbc-#{version}-LICENSE`
+     `cp LEGAL ../built/mrbc-#{version}-LEGAL`
    end
 end
