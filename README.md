@@ -14,10 +14,11 @@ GitHub Actionsを使って、`versions.yaml`で定義された複数バージョ
 
 ```yaml
 versions:
-  - "3.0.0"
-  - "3.1.0"
-  - "3.2.0"
-  - "3.3.0"
+  - 2.0.1
+  - 3.1.0
+  - 3.2.0
+  - 3.3.0
+  - 3.4.0
 ```
 
 ### 2. ワークフローを実行
@@ -32,24 +33,25 @@ versions:
 
 ### 3. リリースをダウンロード
 
-ビルドが完了すると、GitHub Releasesに `mrbc-pack-{tag}.tar.gz` が公開されます。
-
-```bash
-# ダウンロードして展開
-tar -xzf mrbc-pack-v1.0.0.tar.gz
-
-# 使用例
-./mrbc-3.3.0 your_script.rb
-```
+ビルドが完了すると、GitHub Releasesに `build.tar.gz` が公開されます。
 
 ## 出力形式
 
+各バージョンのmrbcバイナリと、対応するLICENSE/LEGALファイルが含まれます。
+
 ```
-mrbc-pack-{tag}.tar.gz
-├── mrbc-3.0.0
-├── mrbc-3.1.0
-├── mrbc-3.2.0
-└── mrbc-3.3.0
+build.tar.gz
+└── built/
+    ├── mrbc-2.0.1
+    ├── mrbc-2.0.1-LICENSE
+    ├── mrbc-2.0.1-LEGAL
+    ├── mrbc-3.1.0
+    ├── mrbc-3.1.0-LICENSE
+    ├── mrbc-3.1.0-LEGAL
+    ├── ...
+    ├── mrbc-3.4.0
+    ├── mrbc-3.4.0-LICENSE
+    └── mrbc-3.4.0-LEGAL
 ```
 
 ## 対応プラットフォーム
@@ -58,5 +60,5 @@ mrbc-pack-{tag}.tar.gz
 
 ## ライセンス
 
-このリポジトリのコードはMITライセンスです。
-mrubyのライセンスについては[mruby/mruby](https://github.com/mruby/mruby)を参照してください。
+MIT License, 2025 Copyright (C) Poporon Network
+ビルド済みのmrbcのライセンスは`mrbc-{version}-LICENSE`/`mrbc-{version}-LEGAL`をご覧ください．
